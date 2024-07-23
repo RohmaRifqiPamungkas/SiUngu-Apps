@@ -9,16 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('sesi', function (Blueprint $table) {
-            $table->id();
-            $table->string('judul', 100);
-            $table->string('deskripsi_kegiatan');
-            $table->datetime('tanggal');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('sesi')) {
+            Schema::create('sesi', function (Blueprint $table) {
+                $table->id();
+                $table->string('judul', 100);
+                $table->string('deskripsi_kegiatan', 255);
+                $table->dateTime('tanggal');
+                $table->timestamps();
+            });
+        }
     }
+
 
     /**
      * Reverse the migrations.

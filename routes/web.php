@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+	return view('index');
 });
 
 use App\Http\Controllers\HomeController;
@@ -23,37 +23,40 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
-use App\Http\Controllers\ChangePassword;            
-use App\Http\Controllers\AbsensiController;            
-use App\Http\Controllers\ManajemenKasController;            
-use App\Http\Controllers\EventsController;  
-use App\Http\Controllers\AnggotaController;  
-            
+use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\ManajemenKasController;
+use App\Http\Controllers\EventsController;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\GalleryController;
 
-Route::get('/', function () {return redirect('/dashboard');
+
+Route::get('/', function () {
+	return redirect('/dashboard');
 })->middleware('auth');
-	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
+Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 
-	Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
-	Route::get('/google/callback', [LoginController::class, 'handleGoogleCallback'])->name('login.google.callback');
+Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/google/callback', [LoginController::class, 'handleGoogleCallback'])->name('login.google.callback');
 
-	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
-	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
+Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
+Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
+Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
-	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static'); 
+	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
-	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static'); 
+	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -61,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota');
 	Route::get('anggota/tambah', [AnggotaController::class, 'addanggota'])->name('tambah-anggota');
 	Route::post('post-anggota', [AnggotaController::class, 'postanggota'])->name('post-anggota');
-	
+
 	Route::get('/edit-anggota/{id}', [AnggotaController::class, 'editanggota'])->name('edit-anggota');
 	Route::post('/update-anggota/{id}', [AnggotaController::class, 'updateanggota'])->name('update-anggota');
 	Route::get('/delete-anggota/{id}', [AnggotaController::class, 'deleteanggota'])->name('delete-anggota');
@@ -98,5 +101,26 @@ Route::group(['middleware' => 'auth'], function () {
 	//MANAJEMEN KAS
 	Route::get('/manajemen_kas', [ManajemenKasController::class, 'show'])->name('manajemen_kas');
 	Route::get('/get-deskripsi/{id}', [ManajemenKasController::class, 'getDeskripsi']);
-	
+
+	// Routes for Announcements
+	Route::group(['middleware' => 'auth'], function () {
+		Route::get('pages/announcements', [AnnouncementController::class, 'index'])->name('pages.announcements.index');
+		Route::get('pages/announcements/create', [AnnouncementController::class, 'create'])->name('pages.announcements.create');
+		Route::post('pages/announcements', [AnnouncementController::class, 'store'])->name('pages.announcements.store');
+		Route::get('pages/announcements/{id}/edit', [AnnouncementController::class, 'edit'])->name('pages.announcements.edit');
+		Route::put('pages/announcements/{id}', [AnnouncementController::class, 'update'])->name('pages.announcements.update');
+		Route::delete('pages/announcements/{id}', [AnnouncementController::class, 'destroy'])->name('pages.announcements.destroy');
+		Route::get('pages/announcements/{id}', [AnnouncementController::class, 'show'])->name('pages.announcements.show');
+	});
+
+
+	// Routes for Gallery
+	Route::group(['middleware' => 'auth'], function () {
+		Route::get('pages/gallery', [GalleryController::class, 'index'])->name('pages.gallery.index');
+		Route::get('/gallery/create', [GalleryController::class, 'create'])->name('pages.gallery.create');
+		Route::post('/gallery', [GalleryController::class, 'store'])->name('pages.gallery.store');
+		Route::get('/gallery/{id}/edit', [GalleryController::class, 'edit'])->name('pages.gallery.edit');
+		Route::put('/gallery/{id}', [GalleryController::class, 'update'])->name('pages.gallery.update');
+		Route::get('/gallery/{id}', [GalleryController::class, 'destroy'])->name('pages.gallery.destroy');
+	});
 });

@@ -62,7 +62,23 @@
                     <span class="nav-link-text ms-1 mt-2">Events</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('announcements*') ? 'active' : '' }}" href="{{ route('pages.announcements.index') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-bullhorn text-warning text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1 mt-2">Pengumuman</span>
+                </a>
+            </li>            
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('gallery*') ? 'active' : '' }}" href="{{ route('pages.gallery.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-images text-success text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1 mt-2">Galeri Foto</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('manajemen_kas') }}">
                     <div
@@ -87,7 +103,6 @@
                         <span class="nav-link-text ms-1 mt-1">Log Out</span>
                     </a>
                 </form>
-
             </li>
         </ul>
     </div>

@@ -9,19 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('anggota', function (Blueprint $table) {
-            $table->id();
-            $table->string('nis', 50);
-            $table->string('nama_siswa', 100);
-            $table->unsignedBigInteger('id_kelas'); 
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->string('no_hp', 20);
-            $table->string('unique_code', 64);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('anggota')) {
+            Schema::create('anggota', function (Blueprint $table) {
+                $table->id();
+                $table->string('nis', 50);
+                $table->string('nama_siswa', 100);
+                $table->foreignId('id_kelas');
+                $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+                $table->string('no_hp', 20);
+                $table->string('unique_code', 64);
+                $table->timestamps();
+            });
+        }
     }
+
 
     /**
      * Reverse the migrations.
