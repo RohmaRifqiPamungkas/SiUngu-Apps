@@ -28,7 +28,6 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ManajemenKasController;            
 use App\Http\Controllers\EventsController;  
 use App\Http\Controllers\AnggotaController;  
-          
             
 
 Route::get('/', function () {return redirect('/dashboard');
